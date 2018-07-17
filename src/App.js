@@ -3,11 +3,10 @@ import { Alert } from 'watson-react-components/dist/components';
 import './App.css';
 import TopNav from './TopNav';
 import Footer from './Footer';
-
 const orange = require('./images/dot-orange.svg');
 const purple = require('./images/dot-purple.svg');
 
-const OPENWHISK_BACKEND = process.env.REACT_APP_API_URL;
+const OPENWHISK_BACKEND = 'https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/a8a0f14d757ebc1969afaf53a369cd549b0f405fc97256b5a374cf2f38329b2c/WeatherAssistant_api/submit'
 
 const Message = (props) => (
   <div className="segments load">
@@ -41,7 +40,8 @@ class App extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-IBM-client-ID': 'a1873811-6f1a-476d-ae0b-697f2069e047:QUrVvZsweo0hejRc3qjJnoi6Wbu35lPLACT0r7nefzAM0i307DF5d2AowyTpBD6u'
       },
       body: JSON.stringify({ conversation: { input: { text: input, language: 'en' }, context: context/*, _id: self.state._id */} })
     })
@@ -87,6 +87,10 @@ class App extends Component {
     this.messages.scrollTop = this.messages.scrollHeight;
   }
 
+  formatMaps(){
+    return "https://maps.googleapis.com/maps/api/staticmap?center="+this.state.context.city+","+this.state.context.city+"&zoom=13&scale=1&size=600x300&maptype=roadmap&key=AIzaSyD70ys4Z7Z57Pgsd9yIt4Lf70kArw0rYMs&format=png&visual_refresh=true";
+  }
+
   componentDidMount() {
     this.sendMessage('Hello', {});
   }
@@ -96,7 +100,9 @@ class App extends Component {
   }
 
   render() {
+    var imgsrc = "https://maps.googleapis.com/maps/api/staticmap?center=" + this.state.context.city+","+this.state.context.state + "&zoom=7&scale=1&size=600x300&maptype=roadmap&key=AIzaSyD70ys4Z7Z57Pgsd9yIt4Lf70kArw0rYMs&format=png&visual_refresh=true";
     return (
+
       <div className="App">
         <div className="App--main">
           <TopNav
@@ -116,6 +122,9 @@ class App extends Component {
                   {!this.state.error ? this.state.messages.map(m => <Message key={m.time} type={m.type} message={m.message} time={m.time} summary={m.summary} dots={m.dots} />) : null}
                 </div>
               </div>
+              <img alt="GoogleMaps Here" src={imgsrc}></img>
+
+
             </div>
             <input
               id="text-input-1"
