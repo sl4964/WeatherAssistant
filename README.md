@@ -52,6 +52,8 @@ To deploy this application to IBM Cloud, click the **Deploy to IBM Cloud** butto
    cf api https://api.ng.bluemix.net
    cf login
    ```
+   For ibm internal users, log in with  
+   cf login --sso
 5. Open the manifest.yml file located in the root directory of your cloned repository. Replace the content in the ```name: ``` field with a unique name for your application. The name you specify in this field will become your application's URL, <app name>.mybluemix.net.
    ```yml
    ---
